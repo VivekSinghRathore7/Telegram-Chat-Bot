@@ -137,9 +137,9 @@ async def chat(message: Message):
         await add_message(uid, "assistant", reply)
         await message.answer(reply)
     except Exception as exc:
-        print(repr(exc))
-        await message.answer("Model request failed. Check LLM_API_KEY, LLM_BASE_URL and MODEL_ID.")
-
+    error = f"{type(exc).__name__}: {exc}"
+    print("MODEL_ERROR:", error, flush=True)
+    await message.answer(f"Model error:\n{error[:1500]}")
 async def main():
     await init_db()
     await dp.start_polling(bot)
